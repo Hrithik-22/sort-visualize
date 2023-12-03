@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-// Function to generate a random array of given size
-function generateRandomArray(size) {
-  return Array.from(
-    { length: size },
-    () => Math.floor(Math.random() * 100) + 1
-  );
-}
+
 function Header() {
   const [array, setArray] = useState(generateRandomArray(50)); // Initial array with 50 elements
+
+  // Function to generate a random array of given size
+  function generateRandomArray(size) {
+    return Array.from(
+      { length: size },
+      () => Math.floor(Math.random() * 100) + 1
+    );
+  }
 
   // Function to handle the "Generate Random Array" button click
   function handleGenerateRandomArray() {
@@ -63,8 +65,8 @@ function Header() {
         {array.map((value, index) => (
           <div
             key={index}
-            className="bg-blue-300 h-8 w-4 mx-1 "
-            style={{ bottom: 0, height: `${value * 3}px` }}
+            className="bg-blue-300 h-8 w-4 mx-1"
+            style={{ height: `${value * 3}px` }}
           ></div>
         ))}
       </div>
