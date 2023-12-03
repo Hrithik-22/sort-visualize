@@ -66,7 +66,7 @@ function Header() {
           <div
             key={index}
             className="bg-blue-300 h-8 w-4 mx-1"
-            style={{ height: `${value * 3}px` }}
+            style={{ height: `${value * 3}px`, transform: `rotate(-180deg)` }}
           ></div>
         ))}
       </div>
