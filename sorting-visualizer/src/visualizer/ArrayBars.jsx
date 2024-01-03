@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 
 function Header() {
-  const [array, setArray] = useState(generateRandomArray(50)); // Initial array with 50 elements
+  const [array, setArray] = useState(generateRandomArray(50));
+  // Initial array with 50 elements
 
   // Function to generate a random array of given size
   function generateRandomArray(size) {
