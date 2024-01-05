@@ -1,29 +1,55 @@
 // SortingVisualizer.js
-import React, { useState } from "react";
-import { generateRandomArray, bubbleSort } from "./sortingAlgorithms";
-import SortableBar from "./sortableBar";
-function SortingVisualizer({ speed }) {
+import React, { useState, useEffect } from "react";
+import ArrayVisualization from "./ArrayVisualization";
+import SortingButtons from "../utilis/SortingButtons";
+import SpeedAndSizeControls from "../utilis/SpeedAndSizeControl";
+import { generateRandomArray } from "../utilis/utilis";
+
+function SortingVisualizer() {
+  const [speed, setSpeed] = useState(2);
   const [bars, setBars] = useState(generateRandomArray(25));
   const [comparing, setComparing] = useState([]);
   const [sortedBars, setSortedBars] = useState([]);
 
-  const handleGenerateRandomArray = () => {
+  function handleGenerateRandomArray() {
     const newArray = generateRandomArray(bars.length);
     setBars(newArray);
     setComparing([]);
     setSortedBars([]);
-  };
-
-  const handleBubbleSort = async () => {
-    // Your existing bubble sort logic here
+  }
+  async function handleSelectionSort() {
     setComparing([]);
     setSortedBars([]);
 
     const arrayCopy = [...bars];
     const n = arrayCopy.length;
-    //no.of iterations
+
+    for (let i = 0; i < n - 1; i++) {
+      let minIndex = i;
+
+      for (let j = i + 1; j < n; j++) {
+        setComparing([minIndex, j]);
+        if (arrayCopy[j] < arrayCopy[minIndex]) {
+          minIndex = j;
+        }
+        await new Promise((resolve) => setTimeout(resolve, speed * 60));
+        setBars([...arrayCopy]);
+      }
+
+      [arrayCopy[i], arrayCopy[minIndex]] = [arrayCopy[minIndex], arrayCopy[i]];
+      setSortedBars([...sortedBars, i]);
+    }
+
+    setComparing([]);
+  }
+  async function handleBubbleSort() {
+    setComparing([]);
+    setSortedBars([]);
+
+    const arrayCopy = [...bars];
+    const n = arrayCopy.length;
+
     for (let i = 0; i < n; i++) {
-      // second for loop is for comparing consecutive elements
       for (let j = 0; j < n - i - 1; j++) {
         setComparing([j, j + 1]);
         if (arrayCopy[j] > arrayCopy[j + 1]) {
@@ -37,22 +63,22 @@ function SortingVisualizer({ speed }) {
     }
 
     setComparing([]);
-  };
+  }
 
   return (
-    <div>
-      {/* ... UI components for sorting controls ... */}
-      <div className="flex mt-4  pt-5">
-        {bars.map((value, index) => (
-          <SortableBar
-            key={index}
-            value={value}
-            index={index}
-            comparing={comparing}
-            sortedBars={sortedBars}
-          />
-        ))}
-      </div>
+    <div className="flex flex-col items-center py-4 bg-blue-500 text-white px-4">
+      <h1 className="text-2xl font-bold mb-4">Sorting Visualizer</h1>
+      <SortingButtons
+        handleBubbleSort={handleBubbleSort}
+        handleSelectionSort={handleSelectionSort}
+        handleGenerateRandomArray={handleGenerateRandomArray}
+      />
+      <SpeedAndSizeControls />
+      <ArrayVisualization
+        bars={bars}
+        comparing={comparing}
+        sortedBars={sortedBars}
+      />
     </div>
   );
 }

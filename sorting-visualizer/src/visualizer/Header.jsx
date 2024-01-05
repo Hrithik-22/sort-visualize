@@ -29,7 +29,11 @@ function ArrayVisualization({ bars, comparing, sortedBars }) {
   );
 }
 
-function SortingButtons({ handleBubbleSort, handleGenerateRandomArray }) {
+function SortingButtons({
+  handleBubbleSort,
+  handleSelectionSort,
+  handleGenerateRandomArray,
+}) {
   return (
     <div className="flex gap-2 mb-4">
       <button
@@ -37,6 +41,12 @@ function SortingButtons({ handleBubbleSort, handleGenerateRandomArray }) {
         className="bg-white text-blue-500 px-4 py-2 rounded-md hover:bg-blue-600 hover:text-white transition duration-300 ease-in-out"
       >
         Bubble Sort
+      </button>
+      <button
+        onClick={handleSelectionSort}
+        className="bg-white text-blue-500 px-4 py-2 rounded-md hover:bg-blue-600 hover:text-white transition duration-300 ease-in-out"
+      >
+        Selection Sort
       </button>
       {/* Add buttons for other sorting algorithms here */}
       <button
@@ -84,7 +94,31 @@ function Header() {
     setComparing([]);
     setSortedBars([]);
   }
+  async function handleSelectionSort() {
+    setComparing([]);
+    setSortedBars([]);
 
+    const arrayCopy = [...bars];
+    const n = arrayCopy.length;
+
+    for (let i = 0; i < n - 1; i++) {
+      let minIndex = i;
+
+      for (let j = i + 1; j < n; j++) {
+        setComparing([minIndex, j]);
+        if (arrayCopy[j] < arrayCopy[minIndex]) {
+          minIndex = j;
+        }
+        await new Promise((resolve) => setTimeout(resolve, speed * 60));
+        setBars([...arrayCopy]);
+      }
+
+      [arrayCopy[i], arrayCopy[minIndex]] = [arrayCopy[minIndex], arrayCopy[i]];
+      setSortedBars([...sortedBars, i]);
+    }
+
+    setComparing([]);
+  }
   async function handleBubbleSort() {
     setComparing([]);
     setSortedBars([]);
@@ -113,6 +147,7 @@ function Header() {
       <h1 className="text-2xl font-bold mb-4">Sorting Visualizer</h1>
       <SortingButtons
         handleBubbleSort={handleBubbleSort}
+        handleSelectionSort={handleSelectionSort}
         handleGenerateRandomArray={handleGenerateRandomArray}
       />
       <SpeedAndSizeControls />
