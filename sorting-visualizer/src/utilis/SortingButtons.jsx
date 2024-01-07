@@ -3,27 +3,37 @@ function SortingButtons({
   handleBubbleSort,
   handleSelectionSort,
   handleGenerateRandomArray,
+  handleStopSorting,
+  isSorting,
 }) {
   return (
     <div className="flex gap-2 mb-4">
       <button
         onClick={handleBubbleSort}
-        className="bg-white text-blue-500 px-4 py-2 rounded-md hover:bg-blue-600 hover:text-white transition duration-300 ease-in-out"
+        className={
+          isSorting
+            ? `bg-slate-500 cursor-not-allowed px-4 py-2 rounded-md`
+            : `bg-white text-blue-500 px-4 py-2 rounded-md hover:bg-blue-600 hover:text-white transition duration-300 ease-in-out`
+        }
       >
         Bubble Sort
       </button>
       <button
         onClick={handleSelectionSort}
-        className="bg-white text-blue-500 px-4 py-2 rounded-md hover:bg-blue-600 hover:text-white transition duration-300 ease-in-out"
+        className={
+          isSorting
+            ? `bg-slate-500 cursor-not-allowed px-4 py-2 rounded-md`
+            : `bg-white text-blue-500 px-4 py-2 rounded-md hover:bg-blue-600 hover:text-white transition duration-300 ease-in-out`
+        }
       >
         Selection Sort
       </button>
       {/* Add buttons for other sorting algorithms here */}
       <button
-        onClick={handleGenerateRandomArray}
+        onClick={isSorting ? handleStopSorting : handleGenerateRandomArray}
         className="bg-white text-blue-500 px-4 py-2 rounded-md hover:bg-blue-600 hover:text-white transition duration-300 ease-in-out"
       >
-        Generate Random Array
+        {isSorting ? `Stop Sorting` : `Generate Random Array`}
       </button>
     </div>
   );
