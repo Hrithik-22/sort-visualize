@@ -11,7 +11,7 @@ import {
   handleStopSorting,
 } from "./SortingFunctions";
 
-function SortingVisualizer() {
+function Demo_SortingVisualizer() {
   const [speed, setSpeed] = useState(2);
   const [bars, setBars] = useState(generateRandomArray(25));
   const [isSorting, setIsSorting] = useState(false);
@@ -75,4 +75,4 @@ function SortingVisualizer() {
   );
 }
 
-export default SortingVisualizer;
+export default Demo_SortingVisualizer;
